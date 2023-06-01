@@ -1,4 +1,5 @@
 import express from "express";
+import { postRouter } from './Routes/post.router.js';
 
 const app = express();
 
@@ -7,7 +8,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-  res.send("Read about my app");
+  res.send("You can get a defferint post");
+});
+
+app.post("/about", (req, res) => {
+  res.send("You can post here");
+});
+
+app.put("/about", (req, res) => {
+  res.send("You can update here");
+});
+
+app.delete("/about", (req, res) => {
+  res.send("You can delete here");
 });
 
 app.get("/products", (req, res) => {
