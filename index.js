@@ -2,12 +2,26 @@ import express from "express";
 import dotenv from 'dotenv';
 import { postRouter } from './Routes/post.router.js';
 import db from "./Config/db.config.js";
-dotenv.config()
+
 
 db.query(`SELECT title FROM song`, (err, result)=>{
   console.log(result);
  console.log("Hollo");
 })
+db.query(`SELECT s.id, s.title, s.content, s.artist_id, a.name
+          FROM song s 
+          JOIN artist a
+          ON s.artist_id = a.id
+          `, (err, result) => {
+            if (err) {
+              console.error(err)
+            }else{
+              console.log(result);
+            }
+  }
+);
+
+dotenv.config()
 
 const app = express();
 app.use(express.urlencoded({extended:true}))
