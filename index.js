@@ -1,44 +1,26 @@
-import express from "express";
-import dotenv from 'dotenv';
+// Importerer dependencies
+import express from 'express'
 import { postRouter } from './Routes/post.router.js';
-import db from "./Config/db.config.js";
 
-
-db.query(`SELECT title FROM song`, (err, result)=>{
-  console.log(result);
- console.log("Hollo");
-})
-db.query(`SELECT s.id, s.title, s.content, s.artist_id, a.name
-          FROM song s 
-          JOIN artist a
-          ON s.artist_id = a.id
-          `, (err, result) => {
-            if (err) {
-              console.error(err)
-            }else{
-              console.log(result);
-            }
-  }
-);
-
+// Importerer og sætter dotenv til globale vars
+import dotenv from 'dotenv'
 dotenv.config()
 
-const app = express();
-app.use(express.urlencoded({extended:true}))
+// Deklarerer app var med ekspress objekt
+const app = express()
 
+// Udvider app så vi kan læse form body data
+app.use(express.urlencoded({ extended: true }))
 
+// Anvender eksterne routes
+app.use(postRouter)
 
-app.get("/", (req, res) => {
-  res.send("Welcome to my node app!");
-});
+// Skriver fejl hvis route ikke findes
+app.use((req, res) => {
+    res.status(404).send("Siden blev ikke fundet!")
+})
 
-
-app.use("/post", postRouter)
-
-app.use((req, res,) => {
-  res.status(404).send("The page was not found");
-});
-
-app.listen(4040, () => {
-  console.log("The server is running on port 4040: http://localhost:4040/");
-});
+// Aktiverer server og lytter på port fra .env fil
+app.listen(process.env.PORT, () => {
+	console.log(`Server kører på http://localhost:${process.env.PORT}`)	
+})
