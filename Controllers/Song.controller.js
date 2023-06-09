@@ -10,18 +10,36 @@ class SongController {
 //      return true
 
   list = (req, res) => {
-     const sql =  `SELECT s.id, s.title, a.name  
+   console.log(req.query);
+
+
+
+   let { sortkey, sortdir, limit, attributes} = req.query
+
+
+   //Sætter ternery oprator
+   sortkey = sortkey ? sortkey : 's.id'
+   sortdir = sortdir ? sortdir.toUpperCase(): 'ASC'
+   limit = limit ? `LIMIT ${parseInt(limit)}` : ''
+   attributes = attributes? attributes: 's.id, s.title, a.name '
+
+
+
+     const sql =  `SELECT ${attributes} 
                    FROM song s 
                    JOIN artist a 
                    ON s.artist_id = a.id 
-                   ORDER BY a.name`
-db.query(sql, (err, result) => {
-if(err) {
-console.error(err)
-} else {
-res.json(result)
-}
-})
+                   ORDER BY ${sortkey} ${sortdir} ${limit}`
+                   
+
+      console.log(sql);
+      db.query(sql, [sortkey],(err, result) => {
+         if(err) {
+            console.error(err)
+         } else {
+            res.json(result)
+         }
+      })
 }
 
   
@@ -29,7 +47,7 @@ res.json(result)
 //      console.log('Kører details metode');
 //      return true
 details = (req, res) => {
-     const id = req.params.id
+     const id = parseInt(req.params.id)
      const sql = `SELECT s.id, s.title, s.content, a.name 
                          FROM song s 
                          JOIN artist a 
@@ -44,26 +62,72 @@ details = (req, res) => {
           }
      })
 }
-  create = () => {
-     console.log('køre create metode');
-     return true
-  }
+create = (req, res) => {
+   const { title, content, artist_id } = req.body
+   //console.log({title, content, artist_id});
 
+   if(title && content && artist_id) {
+      const sql = `INSERT INTO song
+                  (title, content, artist_id) 
+                  VALUES(?,?,?)`
 
-
-  update = () => {
-     console.log('køre update metode');
-     return true
-  }
-
-  
-  delete = () => {
-     console.log('køre delete metode');
-     return true
-  }
-
+      db.query(sql, [title, content, artist_id], (err, result) => {
+         if(err) {
+            console.error(err)
+         } else {
+            res.json({new_id: result.insertId})
+         }
+      })
+   }
 
 }
+
+
+  update = (req, res) => {
+   const { title, content, artist_id, id } = req.body
+   //console.log({title, content, artist_id});
+
+   if(title && content && artist_id  && id ) {
+      const sql = `UPDATE song
+                   SET title = ?,
+                   content = ?,
+                   artist_id = ?
+                   WHERE id = ?
+                  `
+
+      db.query(sql, [title, content, artist_id, id], (err, result) => {
+         if(err) {
+            console.error(err)
+         } else {
+            res.json({
+               status: 'ok',
+               updated_id: id
+            })
+         }
+      })
+   }
+
+  }
+  delete = (req, res) => {
+   const id = req.body.id || 0
+   const sql = `DELETE FROM song
+                WHERE id = ?`
+   
+   db.query(sql, [id], (err, result) => {
+       if(err) {
+           console.error(err)
+       } else {
+           res.sendStatus(200);
+       }
+   })
+}     
+}
+
+  
+   
+
+
+
 
 
 

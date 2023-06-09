@@ -1,6 +1,6 @@
 // Importerer dependencies
 import express from 'express'
-import { postRouter } from './Routes/post.router.js';
+import songRouter from './Routes/song.router.js';
 
 // Importerer og sætter dotenv til globale vars
 import dotenv from 'dotenv'
@@ -13,11 +13,11 @@ const app = express()
 app.use(express.urlencoded({ extended: true }))
 
 // Anvender eksterne routes
-app.use(postRouter)
+app.use(songRouter)
 
 // Skriver fejl hvis route ikke findes
 app.use((req, res) => {
-    res.status(404).send("Siden blev ikke fundet!")
+    res.status(404).send("Oops page not found!")
 })
 
 // Aktiverer server og lytter på port fra .env fil
