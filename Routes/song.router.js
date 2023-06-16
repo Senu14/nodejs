@@ -12,10 +12,10 @@ const controller= new SongController()
 
 // Route Routes Begin
 songRouter.get('/api/song', (req, res) => {controller.list(req, res) })
-songRouter.get('api//song/:id([0-9]*)', (req, res) => {controller.get(req, res) })
-songRouter.get('api//song/', (req, res) => {controller.create(req, res) })
-songRouter.get('api//song/', (req, res) => {controller.update(req, res) })
-songRouter.get('api//song/:id([0-9]*)', (req, res) => {controller.delete(req, res) })
+songRouter.get('/api/song/:id([0-9]*)', (req, res) => {controller.details(req, res)})
+songRouter.post('/api/song', (req, res) => {controller.create(req, res) })
+songRouter.put('/api/song', (req, res) => {controller.update(req, res) })
+songRouter.delete('/api/song/:id([0-9]*)', (req, res) => {controller.delete(req, res)})
 
 
 

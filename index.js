@@ -20,6 +20,7 @@ app.use(express.urlencoded({
 app.use(InitRouter);
 app.use(songRouter);
 
+
 // Skriver fejl hvis route ikke findes
 app.use((req, res) => {
     res.status(404).send("Oops page not found!")
