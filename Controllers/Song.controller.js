@@ -22,23 +22,23 @@ class SongController {
    res.json(result)
   }
 
-  details = async (req, res) => {
+details = async (req, res) => {
     const result = await SongModel.findAll({
       where: { id: req.params.id }
     })
     res.json(...result);
   }; 
 
-create = async (req, res) => {
-   const { title, content, artist_id } = req.body;
+  create = async (req, res) => {
+    const { title, content, artist_id } = req.body;
 
-   if(title && content && artist_id) {
-       const model = await SongModel.create(req.body)
-       return res.json({ newId: model.id })
-   } else {
-       res.send(418)
-   }
-}
+    if (title && content && artist_id) {
+      const model = await SongModel.create(req.body);
+      return res.json({ newid: model.id });
+    } else {
+      res.send(418);
+    }
+  };
 
 update = async (req, res) => {
    const { title, content, artist_id, id } = req.body;
