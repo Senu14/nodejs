@@ -35,4 +35,4 @@ class SongModel extends Model {}
 
      })
 
-     export  { SongModel };
+     export default SongModel;

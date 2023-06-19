@@ -1,6 +1,8 @@
 // Importerer dependencies
 import express from 'express';
-import  { songRouter }  from './Routes/song.router.js';
+import songRouter  from './Routes/song.router.js';
+import UserRouter from './Routes/user.router.js';
+import ArtistRouter from './Routes/artist.router.js';
 import { router as InitRouter } from './Routes/init.siquelize.router.js';
 import dotenv from 'dotenv';
 
@@ -18,12 +20,17 @@ app.use(express.urlencoded({
 
 // Anvender eksterne routes
 app.use(InitRouter);
+app.use(UserRouter);
+
+
+app.use(ArtistRouter);
 app.use(songRouter);
+
 
 
 // Skriver fejl hvis route ikke findes
 app.use((req, res) => {
-    res.status(404).send("Oops page not found!")
+    res.status(404).send("Hello World!")
 })
 
 // Aktiverer server og lytter på port fra .env fil

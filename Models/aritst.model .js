@@ -26,4 +26,4 @@ class ArtistModel extends Model {}
 
      })
 
-     export  { ArtistModel };
+     export default ArtistModel;

@@ -21,5 +21,5 @@ songRouter.delete('/api/song/:id([0-9]*)', (req, res) => {controller.delete(req,
 
 
 // Route Routes End
-export { songRouter };
+export default songRouter ;
 

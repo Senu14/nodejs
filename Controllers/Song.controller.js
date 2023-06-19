@@ -1,5 +1,5 @@
-import { SongModel } from "../Models/song.model.js";
-import { ArtistModel } from "../Models/aritst.model .js";
+import  SongModel  from "../Models/song.model.js";
+import  ArtistModel  from "../Models/aritst.model .js";
 
 ArtistModel.hasMany(SongModel)
 SongModel.belongsTo(ArtistModel)
